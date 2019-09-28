@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+
+<html dir='rtl' lang='ar'>
+<head>
+    <title>فهرس العنايات المركزة</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="view/assets/css/main-without chosen select-ar.css" />
+    <link rel="stylesheet" href="view/assets/sweetalert2/buttons.css" />
+    <link rel="stylesheet" href="view/assets/sweetalert2/sweetalert2.css" />
+    <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="view/assets/css/ie9.css"/><![endif]-->
+    <noscript>
+        <link rel="stylesheet" href="view/assets/css/noscript.css"/>
+    </noscript>
+
+
+</head>
+
+<body>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+
+<div>
+    <img src="view/images/banner.png" />
+</div>
+<!-- Header -->
+<header id="header">
+
+
+
+    <div class="content">
+        <div class="inner">
+            <form name="ajax-demo" id="ajax-demo">
+
+                <div class="field">
+                    <label>محافظة</label>
+
+                    <div class="select-wrapper">
+                        <select id="govSelect">
+                            <option value="">اختر محافظة</option>
+                            <?php
+                                                        //to show governor
+                                                        $governorsModel = new governorsModel();
+                                                        $allgovs = $governorsModel->getGovs();
+                            foreach($allgovs as $gov)
+                            {
+                            $gov_id = $gov['gov_id'];
+                            $gov_name = $gov['name'];
+                            echo "
+                            <option value='$gov_id'>$gov_name</option>
+                            ";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="field">
+                    <label >مدينة</label>
+
+                    <div class="select-wrapper">
+                        <div id="citySelect">
+                            <select  disabled>
+                                <option value="">اختر المحافظة أولا</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label >مستشفى</label>
+
+                    <div class="select-wrapper">
+                        <div id="hospitalsByCity">
+                            <select  disabled>
+                                <option value="">اختر المدينة أولا</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="submit"><i class="fa fa-search"></i> بحث</button>
+            </form>
+
+            <div id="hospitalDepartments">
+                <div class="field">
+                    <h2 class="major"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- Footer -->
+<footer id="footer">
+    <p class="copyright">&copy; تم التطوير بواسطة A-Team, جامعة الزقازيق - كلية الحاسبات والمعلومات.</p>
+</footer>
+
+</div>
+
+<!-- BG -->
+<div id="bg"></div>
+
+<!-- Scripts -->
+<script src="view/assets/js/jquery.min.js"></script>
+<script src="view/assets/js/skel.min.js"></script>
+<script src="view/assets/js/util.js"></script>
+<script src="view/assets/js/main.js"></script>
+<script src="view/assets/js/androidAjax&validation-ar.js"></script>
+<script src="view/assets/sweetalert2/sweetalert2.js"></script>
+<!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+
+</body>
+
+</html>

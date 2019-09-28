@@ -1,0 +1,442 @@
+<!DOCTYPE HTML>
+
+<html dir='rtl' lang='ar'>
+<head>
+    <title>لوحة التحكم بالموقع</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="view/assets/css/main-ar.css"/>
+    <link rel="stylesheet" href="view/assets/sweetalert2/buttons.css"/>
+    <link rel="stylesheet" href="view/assets/sweetalert2/sweetalert2.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css"/>
+    <link rel="stylesheet" href="view/assets/chosen_v1.7.0/chosen.min.css" />
+    <link rel="stylesheet" href="view/assets/datatable/jquery.dataTables.css"/>
+    <link rel="stylesheet" href="view/assets/datatable/dataTables.responsive.css"/>
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="view/assets/css/ie9.css"/><![endif]-->
+
+    <noscript>
+        <link rel="stylesheet" href="view/assets/css/noscript.css"/>
+    </noscript>
+</head>
+<body ng-app="">
+
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- HeadSectionDl BEGIN -->
+<div id="languages">
+    <a href="controlPanel.php?lang=ar"><img src="view/images/ar.png" /></a>
+    <a href="controlPanel.php?lang=en"><img src="view/images/en.png" /></a>
+</div>
+<!-- HeadSectionDl END -->
+
+<div>
+    <img src="view/images/banner.png"/>
+</div>
+
+<!-- Header -->
+<header id="header">
+
+
+    <div>
+        <nav>
+            <ul>
+                <li><a href="#profile">صفحتك الشخصية</a></li>
+                <li><a href="logout.php">تسجيل الخروج</a></li>
+            </ul>
+        </nav>
+
+    </div>
+
+    <div class="content">
+        <div class="inner">
+
+            <div class="field">
+                <div class="table-wrapper">
+
+                    <div id="refreshAddUser">
+                        <table>
+                            <thead>
+                            <tr id="new_user">
+                                <td width="15%">
+                                    <div id="hospital">
+                                        <select id="user_hospital">
+                                            <option value="">اختر مشفى</option>
+                                            <?php
+                                                        //to show Hospital
+                                                        $hospitalModel = new hospitalModel();
+                                                        $hospitals = $hospitalModel->getHospitals();
+                                            foreach($hospitals as $hospital)
+                                            {
+                                            $hos_id = $hospital['hos_id'];
+                                            $hos_name = $hospital['name'];
+                                            echo "
+                                            <option value='$hos_id'>$hos_name</option>
+                                            ";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <select id="user_group">
+                                        <option value="">اختر نوع المستخدم</option>
+                                        <?php
+                                                        //to show Hospital
+                                                        $usersGroupsModel = new usersGroupsModel();
+                                                        $usersgroups = $usersGroupsModel->getUsersGroups();
+                                        foreach($usersgroups as $usersgroup)
+                                        {
+                                        $id = $usersgroup['id'];
+                                        $name = $usersgroup['name'];
+                                        echo "
+                                        <option value='$id'>$name</option>
+                                        ";
+                                        }
+                                        ?>
+                                    </select></td>
+                                <td><input type="text" id="user_name" placeholder="الاسم"></td>
+                                <td><input type="text" id="user_email" placeholder="البريد الإلكتروني" required="true"></td>
+                                <td><input type="text" id="user_password" required="true" placeholder="كلمة السر"></td>
+                                <td><input type="text" id="user_phone" placeholder="رقم الهاتف"></td>
+                                <td>
+                                    <select id="user_active">
+                                        <option value="">مفعل؟</option>
+                                        <option value="نعم">نعم</option>
+                                        <option value="لا">لا</option>
+                                    </select></td>
+                                <td><input type="button" class="special" value="أضف مستخدم" onclick="add_user();"></td>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div id="refreshUsers">
+                        <table id="users">
+                            <thead>
+                            <tr>
+                                <th><h3>المشفى</h3></th>
+                                <th><h3>نوع المستخدم</h3></th>
+                                <th><h3>الاسم</h3></th>
+                                <th><h3>البريد الإلكتروني</h3></th>
+                                <th><h3>رقم الهاتف</h3></th>
+                                <th><h3>العنوان</h3></th>
+                                <th><h3>التفعيل</h3></th>
+                                <th><h3>خيارات</h3></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+
+                            <?php
+
+                            //to show department
+                            $usersModel = new usersModel();
+                            $users = $usersModel->getAllUsers();
+
+                            foreach($users as $row)
+                            {
+                            ?>
+                            <tr id="row<?php echo $row['user_id'];?>">
+                                <td width="15%"><h3 id="hospital_val<?php echo $row['user_id'];?>"><a hidden="" id="hos_id_val<?php echo $row['user_id'];?>"><?php echo $row['hos_id'];?></a><?php echo $row['hospital'];?></h3></td>
+                                <td><h3 id="usergroup_val<?php echo $row['user_id'];?>"><a hidden="" id="ug_id_val<?php echo $row['user_id'];?>"><?php echo $row['ug_id'];?></a><?php echo $row['usergroup'];?></h3></td>
+                                <td><h3 id="name_val<?php echo $row['user_id'];?>"><?php echo $row['name'];?></h3></td>
+                                <td><h3 id="email_val<?php echo $row['user_id'];?>"><?php echo $row['email'];?></h3></td>
+                                <td><h3 id="phone_val<?php echo $row['user_id'];?>"><?php echo $row['phone'];?></h3></td>
+                                <td><h3 id="address_val<?php echo $row['user_id'];?>"><?php echo $row['address'];?></h3></td>
+                                <td><h3 id="active_val<?php echo $row['user_id'];?>"><?php echo $row['active'];?></h3></td>
+                                <td width="17%">
+                                    <input type='button' class="edit_button"
+                                           id="edit_button<?php echo $row['user_id'];?>" value="تعديل"
+                                           onclick="edit_user(<?php echo $row['user_id'];?>);">
+                                    <input type='button' class="save_button"
+                                           id="save_button<?php echo $row['user_id'];?>" value="حفظ"
+                                           onclick="save_user(<?php echo $row['user_id'];?>);"
+                                           style='display: none'>
+                                    <input type='button' class="delete_button special"
+                                           id="delete_buttton<?php echo $row['user_id'];?>" value="حذف"
+                                           onclick="delete_user(<?php echo $row['user_id'];?>);">
+                                </td>
+                            </tr>
+                            <?php
+                                                    }
+                                                    ?>
+
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#Hospitals">المستشفيات</a></li>
+            <li><a href="#Feedback">الرسائل</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Main -->
+<div id="main">
+
+    <!-- Edit Hospitals Info -->
+    <article id="Hospitals">
+        <h2 class="major">المستشفيات</h2>
+
+        <div class="field">
+            <div class="table-wrapper">
+                <div id="editHos">
+
+                    <table>
+                        <thead>
+                        <th><h3>المشفى</h3></th>
+                        <th><h3>رقم الهاتف</h3></th>
+                        <th><h3>العنوان</h3></th>
+                        <th><h3>المدينة</h3></th>
+                        </thead>
+                        <tbody>
+                        <tr id="new_hosrow">
+                            <td><input type="text" id="new_hosname" placeholder="الاسم" required=""></td>
+                            <td><input type="text" id="new_hosphone" placeholder="رقم الهاتف"></td>
+                            <td><input type="text" id="new_hosaddress" placeholder="العنوان"></td>
+                            <td><select id="new_city">
+                                <option value="">اختر مدينة</option>
+                                <?php
+                                                        //to show Hospital
+                                                        $citysModel = new citysModel();
+                                                        $citys = $citysModel->getCitys();
+                                foreach($citys as $city)
+                                {
+                                $id = $city['city_id'];
+                                $name = $city['name'];
+                                echo "
+                                <option value='$id'>$name</option>
+                                ";
+                                }
+                                ?>
+                            </select></td>
+                            <td><input type="button" class="special" value="أضف مشفى" onclick="add_hos();"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table id="hospitalsTable">
+                        <thead>
+                        <tr>
+                            <th><h3>المشفى</h3></th>
+                            <th><h3>رقم الهاتف</h3></th>
+                            <th><h3>العنوان</h3></th>
+                            <th><h3>المدينة</h3></th>
+                            <th><h3>خيارات</h3></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <?php
+                        //to show department
+                            $hospitalModel = new hospitalModel();
+                            $hospitals = $hospitalModel->getHospitals();
+                        if($hospitals == "" || $hospitals == null){
+                        echo "<h1>إنها أول لزيارة لك</h1><h2>برجاء إضافة بعض المستشفيات</h2>";
+                        }else{
+                        foreach($hospitals as $row)
+                        {
+                        ?>
+                        <tr id="hosrow<?php echo $row['hos_id'];?>">
+                            <td><h3 id="hosname_val<?php echo $row['hos_id'];?>"><?php echo $row['name'];?></h3></td>
+                            <td><h3 id="hosphone_val<?php echo $row['hos_id'];?>"><?php echo $row['phone'];?></h3>
+                            <td><h3 id="hosaddress_val<?php echo $row['hos_id'];?>"><?php echo $row['address'];?></h3>
+                            <td><h3 id="city_val<?php echo $row['hos_id'];?>"><a hidden="" id="city_id_val<?php echo $row['hos_id'];?>"><?php echo $row['city_id'];?></a><?php echo $row['city'];?></h3>
+                            </td>
+                            <td align="center" >
+                                <input type='button' class="edit_button"
+                                       id="edit_hos<?php echo $row['hos_id'];?>" value="تعديل"
+                                       onclick="edit_hos(<?php echo $row['hos_id'];?>);">
+                                <input type='button' class="save_button"
+                                       id="save_hos<?php echo $row['hos_id'];?>" value="حفظ"
+                                       onclick="save_hos(<?php echo $row['hos_id'];?>);" style='display: none'>
+                                <input type='button' class="delete_button special"
+                                       id="delete_hos<?php echo $row['hos_id'];?>" value="حذف"
+                                       onclick="delete_hos(<?php echo $row['hos_id'];?>);">
+                            </td>
+                        </tr>
+                        <?php
+                                                    }}
+                                                    ?>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </article>
+
+
+    <!-- FeedBack -->
+    <article id="Feedback">
+        <h2 class="major">الرسائل</h2>
+
+        <table id="feedbackTable">
+            <thead>
+            <tr>
+                <th></th>
+                <th><h3>المرسل</h3></th>
+                <th><h3>البريد الإلكتروني</h3></th>
+                <th><h3>خيارات</h3></th>
+            </tr>
+            </thead>
+            <tbody>
+
+
+            <?php
+                        //to show feedback
+                            $feedbackModel = new feedbackModel();
+                            $feedbacks = $feedbackModel->getFeedbacks();
+            if($feedbacks == "" || $feedbacks == null){
+            echo "<h1>لا يوجد حاليا رسائل من الزوار</h1><h2>برجاء التحقق في وقت لاحق</h2>";
+            }else{
+            foreach($feedbacks as $row)
+            {
+            ?>
+            <tr id="fbrow<?php echo $row['id'];?>">
+                <td class="details-control" data-id="<?php echo $row['id'];?>" data-message="<?php echo $row['message'];?>" ></td>
+                <td><h3><?php echo $row['name'];?></h3></td>
+                <td><h3><?php echo $row['email'];?></h3>
+                <td align="center" >
+                    <input type='button' class="delete_button special"
+                           id="delete_fb<?php echo $row['id'];?>" value="حذف"
+                           onclick="delete_fb(<?php echo $row['id'];?>);">
+                </td>
+            </tr>
+
+            <?php
+                                                    }}
+                                                    ?>
+
+            </tbody>
+
+        </table>
+    </article>
+
+    <!-- Profile -->
+    <article id="profile">
+        <h2 class="major">الصفحة الشخصية</h2>
+        <?php
+                                $name = $_SESSION['name'];
+                                $email = $_SESSION['email'];
+                                $phone = $_SESSION['phone'];
+                                $address = $_SESSION['address'];
+                                $sec_q = $_SESSION['sec_q'];
+                                $sec_q_a = $_SESSION['sec_q_a'];
+
+                                echo "  <div class='field'>
+        <h3>الاسم</h3>
+        <input type='text' name='name' id='prname' value='$name'/>
+        <br>
+
+        <div class='field'>
+            <h3>البريد الإلكتروني</h3>
+            <div class='popup'><span class='popuptext' id='premailpopup'>برجاء إدخال عنوان بريد إلكتروني صالح</span></div>
+            <input type='text' name='email' id='premail' value='$email'/>
+        </div>
+        <br>
+
+        <div class='field'>
+            <h3>رقم الهاتف</h3>
+            <input type='text' name='phone' id='prphone' value='$phone'/>
+        </div>
+        <br>
+
+        <div class='field'>
+            <h3>العنوان</h3>
+            <input type='text' name='address' id='praddress' value='$address'/>
+        </div>
+        <br>
+
+        <div class='field'>
+            <h3>سؤال الأمان</h3>
+            <div class='select-wrapper'>
+                <select name='sec_q' id='prsec_q' required=''>
+                    <option value='$sec_q'>اتركه بغير تعديل إذا قمت باختياره مرة من قبل</option>
+                    <option value='1'>ما هو اسم صديق طفولتك المفضل؟</option>
+                    <option value='2'>ما هو الاسم الأوسط لأكبر طفل لديك؟</option>
+                    <option value='3'>ما هو فريقك المفضل؟</option>
+                    <option value='4'>ما هو طعامك المفضل وأنت طفل؟</option>
+                    <option value='5'>ما هو نوع وإصدار أول سيارة لك؟</option>
+                    <option value='6'>ما اسم المشفى الذي وُلِدَت فيه؟</option>
+                    <option value='7'>ما اسم مدرستك الابتدائية؟</option>
+                    <option value='8'>في أي مدينة كانت أول وظيفة لك؟</option>
+                    <option value='9'>ما اسم الشركة التي عملت بها لأول مرة؟</option>
+                </select>
+            </div>
+        </div>
+        <br>
+
+        <div class='field'>
+            <h3>اجابتك</h3>
+            <input type='text' name='sec_q_a' id='prsec_q_a' value='$sec_q_a'/>
+        </div>
+        <br>
+
+        <div class='field'>
+            <h3>كلمة السر القديمة</h3>
+            <input type='password' name='pass' id='propass' placeholder='ادخلها إذا كنت ستغير كلمة السر'/>
+        </div>
+        <br>
+
+        <div class='field half first'>
+            <h3>كلمة السر الجديدة</h3>
+            <input type='password' name='pass' id='prnpass'/>
+        </div>
+        <br>
+
+        <div class='field half'>
+            <h3>تأكيد كلمة السر</h3>
+            <input type='password' name='pass' id='prcpass'/>
+        </div>
+        <br>
+        <ul class='actions'>
+            <li><input type='submit' value='تعديل البيانات' id='profileEdit' class='special'/></li>
+        </ul>
+        "; ?>
+
+    </article>
+
+</div>
+
+<!-- Footer -->
+<footer id="footer">
+    <p class="copyright">&copy; تم تطوير الموقع من قبل A-Team, جامعة الزقازيق - كلية الحاسبات والمعلومات.</p>
+</footer>
+
+</div>
+
+<!-- BG -->
+<div id="bg"></div>
+
+<!-- Scripts -->
+<script src="view/assets/js/angular.min.js"></script>
+<script src="view/assets/js/jquery.min.js"></script>
+<script src="view/assets/js/skel.min.js"></script>
+<script src="view/assets/js/util.js"></script>
+<script src="view/assets/js/main.js"></script>
+<script src="view/assets/sweetalert2/sweetalert2.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js"></script>
+<script src="view/assets/chosen_v1.7.0/chosen.jquery.min.js"></script>
+<script src="view/assets/js/adminAjax&validation-ar.js"></script>
+<script src="view/assets/datatable/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/responsive/1.0.0/js/dataTables.responsive.js"></script>
+</body>
+</html>

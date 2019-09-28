@@ -1,0 +1,343 @@
+<!DOCTYPE HTML>
+
+<html dir='rtl' lang='ar'>
+<head>
+    <title>فهرس العنايات المركزة</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="view/assets/css/main-ar.css" />
+    <link rel="stylesheet" href="view/assets/sweetalert2/buttons.css" />
+    <link rel="stylesheet" href="view/assets/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css"/>
+    <link rel="stylesheet" href="view/assets/chosen_v1.7.0/chosen.min.css" />
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="view/assets/css/ie9.css"/><![endif]-->
+    <noscript>
+        <link rel="stylesheet" href="view/assets/css/noscript.css"/>
+    </noscript>
+
+
+</head>
+
+<body>
+
+
+
+
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- HeadSectionDl BEGIN -->
+<div id="languages">
+    <a href="index.php?lang=ar"><img src="view/images/ar.png" /></a>
+    <a href="index.php?lang=en"><img src="view/images/en.png" /></a>
+</div>
+<!-- HeadSectionDl END -->
+
+<div>
+    <img src="view/images/banner.png" />
+</div>
+<!-- Header -->
+<header id="header">
+
+
+
+    <div class="content">
+        <div class="inner">
+            <form name="ajax-demo" id="ajax-demo">
+
+                <div class="field half first">
+                    <label>محافظة</label>
+
+                    <div class="select-wrapper">
+                        <select id="govSelect">
+                            <option value="">اختر محافظة</option>
+                            <?php
+                                                        //to show governor
+                                                        $governorsModel = new governorsModel();
+                                                        $allgovs = $governorsModel->getGovs();
+                            foreach($allgovs as $gov)
+                            {
+                            $gov_id = $gov['gov_id'];
+                            $gov_name = $gov['name'];
+                            echo "
+                            <option value='$gov_id'>$gov_name</option>
+                            ";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="field half ">
+                    <label >مدينة</label>
+
+                    <div class="select-wrapper">
+                        <div id="citySelect">
+                            <select  disabled>
+                                <option value="">اختر المحافظة أولا</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label >مستشفى</label>
+
+                    <div class="select-wrapper">
+                        <div id="hospitalsByCity">
+                            <select  disabled>
+                                <option value="">اختر المدينة أولا</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="submit"><i class="fa fa-search"></i> بحث</button>
+            </form>
+
+            <div id="hospitalDepartments">
+                <div class="field">
+                    <h2 class="major"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#about" class="">عن الموقع</a></li>
+            <li><a href="#contact" class="">تواصل معنا</a></li>
+            <li><a href="https://play.google.com/store/apps/details?id=com.icu.index" target="_blank" class="icon fa-download">احصل على التطبيق</a></li>
+            <li><a href="#faq">الأسئلة الأكثر شيوعاً</a></li>
+            <li><a href="#login">تسجيل الدخول</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Main -->
+<div id="main">
+
+
+<!-- About -->
+<article id="about">
+    <h2 class="major">عن الموقع</h2>
+    <span class="image main"><img src="" alt=""/></span>
+    <p>عادة ما يفقد عدد كبير من الحالات الحرجة حياتهم أثناء البحث عن مكان شاغر في وحدة العنايات المركزة, لهذا فإن معرفة الأماكن المتاحة في وحدة العناية المركزة في المستشفيات المختلفة سيقلل -بإذن الله- من أعداد هذه الأرواح المهدورة وسيقلل الوقت المقدر في البحث عن وحدة شاغرة.</p>
+    <!-- voting markup -->
+    <div style="float: inherit">
+        <label>ما تقييمك لنا</label>
+        <div class="voting_wrapper" id="voting">
+            <div class="voting_btn">
+                <div class="up_button">&nbsp;</div><span class="up_votes">0</span>
+            </div>
+            <div class="voting_btn">
+                <div class="down_button">&nbsp;</div><span class="down_votes">0</span>
+            </div>
+        </div>
+    </div>
+    <!-- voting markup end -->
+</article>
+
+<!-- FAQ -->
+<article id="faq">
+    <h2 class="major">الأسئلة الأكثر شيوعاً</h2>
+
+    <h2>- ماذا يكون هذا الموقع؟</h2>
+    <blockquote>
+        نحن منظمة غير ربحية تهدف إلى المساعدة في إنقاذ أكبر قدر ممكن من الأرواح عن طريق مساعدة المرضى في الوصول إلى وحدة العناية المركزة بأقرب وقت ممكن
+    </blockquote>
+    <h2>- لماذا يجب علي استخدام هذا الموقع؟</h2>
+    <blockquote>
+        لأننا أسهل وأسرع طريق للوصول إلى وحدة العناية المركزة المرغوب فيها لإنقاذ أحبائك
+    </blockquote>
+    <h2>- هل يمكنني البحث في هذا الموقع؟</h2>
+    <blockquote>
+        نحن نقدم لك قائمة مترابطة متسلسة من الاختيارات للبحث الأسهل والأسرع
+    </blockquote>
+    <h2>- هل يمكنني تسجيل الدخول إلى الموقع؟</h2>
+    <blockquote>
+        لا, فاستخدام موقعنا لا يحتاج إلى تسجيل الدخول. وهو مقصور فقط على موظف المشفى ومدير الموقع
+    </blockquote>
+    <h2>- كيف يمكنني التواصل معكم؟</h2>
+    <blockquote>
+        يمكنك التواصل معنا بسهولة عن طريق النقر على "تواصل معنا" لإبداء اقتراحاتك, سنسجل اقتراحاتك أو شكواك ونتواصل معك في أقرب وقت ممكن
+        *ومع هذا احذر! سيتم التغاضي عن الرسائل المسيئة
+    </blockquote>
+    <h2>- هل يمكنني الحجز مقدماً عن طريق هذا الموقع؟</h2>
+    <blockquote>
+        للأسف لا, ولكننا نقدم معلومات عن المشفى المختار لذا يمكنك استخدام رقم المشفى للتأكد من أنه يمكن الحجز بالهاتف
+    </blockquote>
+    <h2>- كيف يمكنني الوصول إلى الخدمة المقدمة؟</h2>
+    <blockquote>
+        نحن نوفر طريقتين لخدمة البحث, إما عن طريق هذا الموقع أو عبر تطبيق الأندرويد على الهاتف الذكي
+        *يمكنك الوصول إليه من <a href="https://play.google.com/store/apps/details?id=com.icu.index">هنا</a>.
+    </blockquote>
+    <h2>-كيف تقومون بجمع هذه المعلومات؟</h2>
+    <blockquote>
+        يتم جمع هذه البيانات بدقة وعناية بالتعاون مع وزارة الصحة لتقديم معلومات صحيحة لزائرينا
+    </blockquote>
+
+    <!-- voting markup -->
+    <div style="float: inherit">
+        <label>ما تقييمك لنا</label>
+        <div class="voting_wrapper" id="voting">
+            <div class="voting_btn">
+                <div class="up_button">&nbsp;</div><span class="up_votes">0</span>
+            </div>
+            <div class="voting_btn">
+                <div class="down_button">&nbsp;</div><span class="down_votes">0</span>
+            </div>
+        </div>
+    </div>
+    <!-- voting markup end -->
+</article>
+
+<!-- Contact -->
+<article id="contact">
+    <h2 class="major">تواصل معنا</h2>
+
+    <form id="feedback">
+
+        <div class="field half first">
+            <label>الاسم</label>
+            <input type="text" name="name" required="" />
+        </div>
+        <div class="field half ">
+            <label>البريد الإلكتروني</label>
+            <input dir='ltr' lang='en' type="text" name="email" title="Optional" placeholder="يمكنك أن تتركه فارغاً" />
+        </div>
+        <div class="field">
+            <label>رسالتك</label>
+            <textarea name="message" required="" placeholder="ساعدنا على التحسن, اجعل رسالتك بناءة" rows="4"></textarea>
+        </div>
+
+        <ul class="actions">
+            <li><input type="submit" value="إرسال" class="special" /></li>
+            <li><input type="reset" value="إفراغ الحقول" /></li>
+        </ul><br>
+        <!-- voting markup -->
+        <div style="float: inherit">
+            <label>ما تقييمك لنا</label>
+            <div class="voting_wrapper" id="voting">
+                <div class="voting_btn">
+                    <div class="up_button">&nbsp;</div><span class="up_votes">0</span>
+                </div>
+                <div class="voting_btn">
+                    <div class="down_button">&nbsp;</div><span class="down_votes">0</span>
+                </div>
+            </div>
+        </div>
+        <!-- voting markup end -->
+    </form>
+
+    <label>تابعنا هنا</label>
+    <ul class="icons">
+        <li><a href="https://twitter.com/SupportIcu" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+        <li><a href="https://www.facebook.com/ICUINDEX/" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+        <li><a href="https://plus.google.com/u/2/102309171787413177826" class="icon fa-google"><span class="label">Google+</span></a></li>
+    </ul>
+</article>
+
+<!-- Login -->
+<article id="login">
+    <h2 class="major">تسجيل الدخول</h2>
+
+    <form method="post" id="loginForm" action="login.php">
+		
+      
+        <div class="field half first">
+            <label>البريد الإلكتروني</label>
+
+
+            <div class="popup"><span class="popuptext" id="loginmailpopup">رجاء أدخل عنوان بريد إلكتروني صالح</span></div>
+            <input dir='ltr' lang='en' required="" type="text" name="loginemail" id="loginEmail" value="HospitalAdmin@gmail.com" />
+
+        </div>
+        <div class="field half ">
+            <label for="login">كلمة السر</label>
+
+            <div class="popup"><span class="popuptext" id="loginpasspopup">رجاء أدخل كلمة السر</span></div>
+            <input required="" type="password" name="pass" id="loginPass" value="1234" />
+        </div>
+        <ul class="actions">
+            <li><input name="submit" type="submit" value="تسجيل الدخول" class="special" id="loginSubmit" /></li>
+            <li><input type="reset" value="إفراغ الحقول" /></li>
+        </ul>
+    </form>
+</article>
+
+<!-- Login Failed Wrong Password -->
+<article id="loginFailedP">
+    <div class="field">
+        <h2 class="major">خطأ في تسجيل الدخول</h2>
+
+        <h3>لقد أدخلت كلمة سر خاطئة, لإعادة المحاولة <a href="#login">اضغط هنا</a></h3>
+    </div>
+</article>
+<!-- Login Failed Wrong Email -->
+<article id="loginFailedE">
+    <div class="field">
+        <h2 class="major">خطأ في تسجيل الدخول</h2>
+
+        <h3>لقد أدخلت عنوان بريد إلكتروني غير صحيح, لإعادة المحاولة <a href="#login">اضغط هنا</a></h3>
+    </div>
+</article>
+
+
+<!-- successful Message -->
+<article id="successfulRegister">
+    <div class="field">
+        <h3>لقد تم تعطيل حسابك مؤقتاً, برجاء الانتظار أو التواصل مع مدير الموقع</h3>
+    </div>
+
+</article>
+<!-- failure Message -->
+<article id="failedRegister">
+    <div class="field">
+        <h3>لقد حدث شيء خاطئ, لإعادة المحاولة<a href="#register">اضغط هنا</a></h3>
+    </div>
+
+</article>
+
+
+</article>
+
+</div>
+
+<!-- Footer -->
+<footer id="footer">
+    <p class="copyright">&copy; تم تطوير الموقع من قبل A-Team, جامعة الزقازيق - كلية الحاسبات والمعلومات.</p>
+    <!-- voting markup -->
+    <div style="float: inherit">
+        <div class="voting_wrapper" id="voting">
+            <div class="voting_btn">
+                <div class="up_button">&nbsp;</div><span class="up_votes">0</span>
+            </div>
+            <div class="voting_btn">
+                <div class="down_button">&nbsp;</div><span class="down_votes">0</span>
+            </div>
+        </div>
+    </div>
+    <!-- voting markup end -->
+</footer>
+
+</div>
+
+<!-- BG -->
+<div id="bg"></div>
+
+<!-- Scripts -->
+<script src="view/assets/js/jquery.min.js"></script>
+<script src="view/assets/js/skel.min.js"></script>
+<script src="view/assets/js/util.js"></script>
+<script src="view/assets/js/main.js"></script>
+<script src="view/assets/js/ajax&validation-ar.js"></script>
+<script src="view/assets/sweetalert2/sweetalert2.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js"></script>
+<script src="view/assets/chosen_v1.7.0/chosen.jquery.min.js"></script>
+<!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+
+</body>
+
+</html>

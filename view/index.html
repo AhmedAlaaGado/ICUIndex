@@ -1,0 +1,430 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+    <title>ICU INDEX</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="view/assets/css/main.css" />
+    <link rel="stylesheet" href="view/assets/sweetalert2/buttons.css" />
+    <link rel="stylesheet" href="view/assets/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css"/>
+    <link rel="stylesheet" href="view/assets/chosen_v1.7.0/chosen.min.css" />
+
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.min.css" />-->
+    <!--<link rel="stylesheet" href="view/assets/chosen_v1.7.0/chosen.css" />-->
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="view/assets/css/ie9.css"/><![endif]-->
+    <noscript>
+        <link rel="stylesheet" href="view/assets/css/noscript.css"/>
+    </noscript>
+
+
+</head>
+
+<body>
+
+
+
+
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+    <!-- HeadSectionDl BEGIN -->
+    <div id="languages">
+        <a href="index.php?lang=ar"><img src="view/images/ar.png" /></a>
+        <a href="index.php?lang=en"><img src="view/images/en.png" /></a>
+    </div>
+    <!-- HeadSectionDl END -->
+
+        <div>
+            <img src="view/images/banner.png" />
+        </div>
+        <!-- Header -->
+        <header id="header">
+
+            <!--<div class="logo">-->
+            <!--<span class="icon fa-diamond"></span>-->
+            <!--<!-- <img src="images/fci.png" /> -->
+            <!--</div>-->
+
+            <!--<div>-->
+            <!--<nav>-->
+            <!--<ul>-->
+            <!--<li><a href="#login" >Login</a></li>-->
+            <!--<li><a href="#register" >Register</a></li>-->
+            <!--</ul>-->
+            <!--</nav>-->
+            <!--</div>-->
+
+            <div class="content">
+                <div class="inner">
+                    <form name="ajax-demo" id="ajax-demo">
+                        <div class="field half first">
+                            <label>Governor</label>
+
+                            <div class="select-wrapper">
+                                <select id="govSelect">
+                            <option value="">Select a Governor</option>
+                            <?php
+                                                        //to show governor
+                                                        $governorsModel = new governorsModel();
+                                                        $allgovs = $governorsModel->getGovs();
+                            foreach($allgovs as $gov)
+                            {
+                            $gov_id = $gov['gov_id'];
+                            $gov_name = $gov['name'];
+                            echo "
+                            <option value='$gov_id'>$gov_name</option>
+                            ";
+                            }
+                            ?>
+                        </select>
+                            </div>
+                        </div>
+                        <div class="field half">
+                            <label >city</label>
+
+                            <div class="select-wrapper">
+                                <div id="citySelect">
+                                    <select  disabled>
+                                <option value="">Select a Governor first</option>
+                            </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label >Choose the Hospital</label>
+
+                            <div class="select-wrapper">
+                                <div id="hospitalsByCity">
+                                    <select  disabled>
+                                <option value="">Select a City first</option>
+                            </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="submit"><i class="fa fa-search"></i> Search</button>
+                    </form>
+
+                    <div id="hospitalDepartments">
+                        <div class="field">
+                            <h2 class="major"></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#about" class="">About</a></li>
+                    <li><a href="#contact" class="">Contact</a></li>
+                    <li><a href="https://play.google.com/store/apps/details?id=com.icu.index" target="_blank" class="icon fa-download"> Get Our App</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#login">Login</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Main -->
+        <div id="main">
+
+
+            <!-- About -->
+            <article id="about">
+                <h2 class="major">About</h2>
+                <span class="image main"><img src="" alt=""/></span>
+
+                <p>A huge number of life threatening conditions usually lose their lives during the search for empty places in the intensive care units. Therefore, knowing the available places in the intensive care unit in different hospitals will decrease such number of deaths and will decrease the estimated time to reach such unit.</p>
+                <!-- voting markup -->
+                <div style="float: inherit">
+                    <label>What do you think About us</label>
+                    <div class="voting_wrapper" id="voting">
+                        <div class="voting_btn">
+                            <div class="up_button">&nbsp;</div><span class="up_votes">0</span>
+                        </div>
+                        <div class="voting_btn">
+                            <div class="down_button">&nbsp;</div><span class="down_votes">0</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- voting markup end -->
+            </article>
+
+            <!-- FAQ -->
+            <article id="faq">
+                <h2 class="major">FAQ</h2>
+
+                <h2>-what is 'ICUIndex.com' ?</h2>
+                <blockquote>
+                    we are a non-profitable organization aims to help saving as many lives as possible by helping patients to reach their desired Intensive Care Units ASAP.
+                </blockquote>
+                <h2>-why should I use 'ICUIndex.com'?</h2>
+                <blockquote>
+                    Because 'ICUIndex' is the easiest, fastest and least expensive way to reach your desired ICU type and save your beloved ones.
+                </blockquote>
+                <h2>-Can I search 'ICUIndex.com'?</h2>
+                <blockquote>
+                    we provide a consecutive navigation list for easier and  faster way to browse through our website.
+                </blockquote>
+                <h2>-Can I login to the website?</h2>
+                <blockquote>
+                    No, using our website requires no access to the ordinary user. The login is limited only to the system admins and hospital specialists.
+                </blockquote>
+                <h2>-How can I contact your organization?</h2>
+                <blockquote>
+                    You can easily contact us via the 'Contact us' tab at the left bottom of our website page. We will carefully recive your emails and reply ASAP. *Abusive emails are excluded though.
+                </blockquote>
+                <h2>-Can I make a reservation via the website?</h2>
+                <blockquote>
+                    Unfortunately no, but we provide many details about the chosen hospital. So you can use the provided phone number to check if phone resirvation is possible.
+                </blockquote>
+                <h2>-How can I access your system?</h2>
+                <blockquote>
+                    You can access our system via our website here or via our android app on your smartphone.
+                    *you can find it <a href="https://play.google.com/store/apps/details?id=com.icu.index">here</a>.
+                </blockquote>
+                <h2>-How do your organization collect this data?</h2>
+                <blockquote>
+                    Our system carfully collects and updates this data with association with ministry of health to provide the most accurate information to our users.
+                </blockquote>
+
+            </article>
+
+            <!-- Contact -->
+            <article id="contact">
+                <h2 class="major">Contact</h2>
+
+                <form id="feedback">
+                    <div class="field half first">
+                        <label>Name</label>
+                        <input type="text" name="name" required="" />
+                    </div>
+                    <div class="field half">
+                        <label>Email</label>
+                        <input type="text" name="email" title="Optional" placeholder="You may leave it blank" />
+                    </div>
+                    <div class="field">
+                        <label>Message</label>
+                        <textarea name="message" required="" placeholder="Let us know how we can improve" rows="4"></textarea>
+                    </div>
+
+                    <ul class="actions">
+                        <li><input type="submit" value="Send Message" class="special" /></li>
+                        <li><input type="reset" value="Reset" /></li>
+                    </ul><br>
+                    <!-- voting markup -->
+                    <div style="float: inherit">
+                        <label>What do you think About us</label>
+                        <div class="voting_wrapper" id="voting">
+                            <div class="voting_btn">
+                                <div class="up_button">&nbsp;</div><span class="up_votes">0</span>
+                            </div>
+                            <div class="voting_btn">
+                                <div class="down_button">&nbsp;</div><span class="down_votes">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- voting markup end -->
+                </form>
+
+
+                <label>Follow us here!</label>
+                <ul class="icons">
+                    <li><a href="https://twitter.com/SupportIcu" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="https://www.facebook.com/ICUINDEX/" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                    <li><a href="https://plus.google.com/u/2/102309171787413177826" class="icon fa-google"><span class="label">Google+</span></a></li>
+                </ul>
+            </article>
+
+            <!-- Login -->
+            <article id="login">
+                <h2 class="major">login</h2>
+
+                <form method="post" id="loginForm" action="login.php">
+                    <div class="field half first">
+                        <label>Email</label>
+
+                        <div class="popup"><span class="popuptext" id="loginmailpopup">Please Enter a Valid Email</span></div>
+                        <input required="" type="text" name="loginemail" id="loginEmail" value="HospitalAdmin@gmail.com" />
+
+                    </div>
+                    <div class="field half">
+                        <label for="login">Password</label>
+
+                        <div class="popup"><span class="popuptext" id="loginpasspopup">Please Enter a your password</span></div>
+                        <input required="" type="password" name="pass" id="loginPass" value="1234" />
+                    </div>
+                    <ul class="actions">
+                        <li><input name="submit" type="submit" value="Login" class="special" id="loginSubmit" /></li>
+                        <li><input type="reset" value="Reset" /></li>
+                    </ul>
+                </form>
+            </article>
+
+            <!-- Login Failed Wrong Password -->
+            <article id="loginFailedP">
+                <div class="field">
+                    <h2 class="major">login Failed</h2>
+
+                    <h3>Your Password was not correct, Click <a href="#login">here to retry</a></h3>
+                </div>
+            </article>
+            <!-- Login Failed Wrong Email -->
+            <article id="loginFailedE">
+                <div class="field">
+                    <h2 class="major">login Failed</h2>
+
+                    <h3>Your Email was not correct, Click <a href="#login">here to retry</a></h3>
+                </div>
+            </article>
+
+            <!-- Register -->
+            <!--<article id="register">-->
+            <!--<h2 class="major">register</h2>-->
+            <!--<form method="post" action="register.php" id="collectdata">-->
+            <!--<div class="field">-->
+            <!--<label for="name">Full Name</label>-->
+            <!--<input type="text" name="name" required="" />-->
+            <!--</div>-->
+            <!--<div class="field half first">-->
+            <!--<label for="login">Password</label>-->
+            <!--<input type="password" name="pass" required="" />-->
+            <!--</div>-->
+            <!--<div class="field half">-->
+            <!--<label for="email">Confirm Password</label>-->
+            <!--<input type="text" name="copass" required="" />-->
+            <!--</div>-->
+            <!--<div class="field half first">-->
+            <!--<label for="email">Email</label>-->
+            <!--<input type="text" name="email" required="" />-->
+            <!--</div>-->
+            <!--<div class="field half">-->
+            <!--<label for="email">Confirm Email</label>-->
+            <!--<input type="text" name="coemail" required="" />-->
+            <!--</div>-->
+            <!--<div class="field half first">-->
+            <!--<label for="demo-category">Choose city</label>-->
+            <!--<div class="select-wrapper">-->
+            <!--<select id="citySelectRegister" required="">-->
+            <!--<option value="">-</option>-->
+            <!--<?php-->
+            <!--//to show city-->
+            <!--$cityModel = new citysModel();-->
+            <!--$allcitys = $cityModel->getCitys();-->
+            <!--foreach($allcitys as $city)-->
+            <!--{-->
+            <!--$city_id = $city['city_id'];-->
+            <!--$city_name = $city['name'];-->
+            <!--echo "-->
+            <!--<option value='$city_id'>$city_name</option>-->
+            <!--";-->
+            <!--}-->
+            <!--?>-->
+            <!--</select>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="field half">-->
+            <!--<label for="demo-category">Choose Hospital</label>-->
+            <!--<div class="select-wrapper">-->
+            <!--<div id="hospitalsByCityRegister">-->
+            <!--<select name="hos_id" disabled >-->
+            <!--<option value="">-</option>-->
+            <!--</select>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="field">-->
+            <!--<label for="register">Phone</label>-->
+            <!--<input type="text" name="phone" required="" />-->
+            <!--</div>-->
+            <!--<div class="field">-->
+            <!--<label for="register">Address</label>-->
+            <!--<input type="text" name="address" required="" />-->
+            <!--</div>-->
+            <!--<div class="field">-->
+            <!--<label >Security Question</label>-->
+            <!--<div class="select-wrapper">-->
+            <!--<select name="sec_q" required="">-->
+            <!--<option value="">-</option>-->
+            <!--<option value="1">What is the name of your favorite childhood friend?</option>-->
+            <!--<option value="2">What is the middle name of your oldest child?</option>-->
+            <!--<option value="3">What is your favorite team?</option>-->
+            <!--<option value="4">What was your favorite food as a child?</option>-->
+            <!--<option value="5">What was the make and model of your first car?</option>-->
+            <!--<option value="6">What was the name of the hospital where you were born?</option>-->
+            <!--<option value="7">What school did you attend for sixth grade?</option>-->
+            <!--<option value="8">In what town was your first job?</option>-->
+            <!--<option value="9">What was the name of the company where you had your first job?</option>-->
+            <!--</select>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="field">-->
+            <!--<label for="register">Answer</label>-->
+            <!--<input type="text" name="sec_q_a" required="" />-->
+            <!--</div>-->
+
+            <!--<ul class="actions">-->
+            <!--<li><input type="submit" name="submit" value="Submit Data" id="submitRegister" class="special" /></li>-->
+            <!--<li><input type="reset" value="Reset" /></li>-->
+            <!--</ul>-->
+            <!--</form>-->
+            <!--</article>-->
+
+            <!-- successful Message -->
+            <article id="successfulRegister">
+                <div class="field">
+                    <h3>Everything went fine, However please wait for Site Admin to confirm your account ^^</h3>
+                </div>
+
+            </article>
+            <!-- failure Message -->
+            <article id="failedRegister">
+                <div class="field">
+                    <h3>Something went wrong, Click <a href="#register">here to retry</a></h3>
+                </div>
+
+            </article>
+
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <p class="copyright">&copy; Developed By The A-Team, Zagazig University - Faculty of computer sceince & IT.</p>
+            <!-- voting markup -->
+            <div style="float: inherit">
+                <div class="voting_wrapper" id="voting">
+                    <div class="voting_btn">
+                        <div class="up_button">&nbsp;</div><span class="up_votes">0</span>
+                    </div>
+                    <div class="voting_btn">
+                        <div class="down_button">&nbsp;</div><span class="down_votes">0</span>
+                    </div>
+                </div>
+            </div>
+            <!-- voting markup end -->
+        </footer>
+
+    </div>
+
+    <!-- BG -->
+    <div id="bg"></div>
+
+    <!-- Scripts -->
+    <script src="view/assets/js/jquery.min.js"></script>
+    <script src="view/assets/js/skel.min.js"></script>
+    <script src="view/assets/js/util.js"></script>
+    <script src="view/assets/js/main.js"></script>
+    <script src="view/assets/js/ajax&validation.js"></script>
+    <script src="view/assets/sweetalert2/sweetalert2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js"></script>
+    <script src="view/assets/chosen_v1.7.0/chosen.jquery.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.min.js"></script>-->
+    <!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>-->
+
+</body>
+
+</html>

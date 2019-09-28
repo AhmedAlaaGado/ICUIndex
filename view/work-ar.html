@@ -1,0 +1,397 @@
+<!DOCTYPE HTML>
+
+<html dir='rtl' lang='ar'>
+<head>
+    <title>لوحة تحكم المشفى</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="view/assets/css/main-ar.css"/>
+    <link rel="stylesheet" href="view/assets/sweetalert2/buttons.css"/>
+    <link rel="stylesheet" href="view/assets/sweetalert2/sweetalert2.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css"/>
+    <link rel="stylesheet" href="view/assets/chosen_v1.7.0/chosen.min.css" />
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="view/assets/css/ie9.css"/><![endif]-->
+    <noscript>
+        <link rel="stylesheet" href="view/assets/css/noscript.css"/>
+    </noscript>
+</head>
+<body ng-app="">
+
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- HeadSectionDl BEGIN -->
+<div id="languages">
+    <a href="controlPanel.php?lang=ar"><img src="view/images/ar.png" /></a>
+    <a href="controlPanel.php?lang=en"><img src="view/images/en.png" /></a>
+</div>
+<!-- HeadSectionDl END -->
+
+<div>
+    <img src="view/images/banner.png"/>
+</div>
+
+<!-- Header -->
+<header id="header">
+
+
+    <div>
+        <nav>
+            <ul>
+                <li><a href="#profile">صفحتك الشخصية</a></li>
+                <li><a href="logout.php">تسجيل الخروج</a></li>
+            </ul>
+        </nav>
+
+    </div>
+
+    <div class="content">
+        <div class="inner">
+            <div class="field">
+                <div class="table-wrapper">
+                    <div id="refresh_dep">
+                        <div id="refreshDep">
+                            <?php
+
+                            //to show department
+                            $departmentsModel = new departmentsModel();
+                            $alldeps = $departmentsModel->
+                            getDepartmentsByHospital($_SESSION['hos_id']);
+                            if($alldeps == "" || $alldeps == null){
+                            echo "<h1>It's your first visit</h1><h2>Please add some departments</h2>";
+                            }else{
+                            ?>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th><h3>قسم</h3></th>
+                                    <th><h3>إجمالي الأسرة</h3></th>
+                                    <th><h3>الأسرة المتاحة</h3></th>
+                                    <th><h3>خيارات</h3></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+                                <?php
+                                foreach($alldeps as $row)
+                                {
+                                ?>
+                                <tr>
+                                    <td><h3><?php echo $row['name'];?></h3></td>
+                                    <td><h3 id="total_beds_val<?php echo $row['dep_id'];?>"><?php echo $row['total_beds'];?></h3></td>
+                                    <td>
+                                        <h3 id="freebeds_val<?php echo $row['dep_id'];?>"><?php echo $row['free_beds'];?></h3>
+                                    </td>
+                                    <td>
+                                        <input type='button' class="edit_button"
+                                               id="edit_button<?php echo $row['dep_id'];?>" value="تعديل"
+                                               onclick="edit_row(<?php echo $row['dep_id'];?>);">
+                                        <input type='button' class="save_button"
+                                               id="save_button<?php echo $row['dep_id'];?>" value="حفظ"
+                                               onclick="save_row(<?php echo $row['dep_id'];?>);"
+                                               style='display: none'>
+                                    </td>
+                                </tr>
+                                <?php
+                                                    }
+                                                    ?>
+
+
+                                </tbody>
+
+                            </table>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#Departments">الأقسام</a></li>
+            <li><a href="#Hospital">معلومات المشفى</a></li>
+            <li><a href="#contact">تواصل معنا</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Main -->
+<div id="main">
+
+    <!-- Edit Departments Info -->
+    <article id="Departments">
+        <h2 class="major">الأقسام</h2>
+
+        <div class="field">
+            <div class="table-wrapper">
+                <div id="editDep">
+                    <table id="user_table">
+                        <thead>
+                        <tr>
+                            <th><h3>قسم</h3></th>
+                            <th><h3>إجمالي الأسرة</h3></th>
+                            <th><h3>خيارات</h3></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <?php
+                            if($alldeps == "" || $alldeps == null){
+                            echo "<h1>إنها زيارتك الأولى</h1><h2>برجاء إدخال بعض الأقسام</h2>";
+                        }else{
+                        foreach($alldeps as $row)
+                        {
+                        ?>
+                        <tr id="row<?php echo $row['dep_id'];?>">
+                            <td><h3 id="name_val<?php echo $row['dep_id'];?>"><?php echo $row['name'];?></h3></td>
+                            <td><h3 id="totalbeds_val<?php echo $row['dep_id'];?>"><?php echo $row['total_beds'];?></h3>
+                            </td>
+                            <td align="center" width="36%">
+                                <input type='button' class="edit_button"
+                                       id="edit_but<?php echo $row['dep_id'];?>" value="تعديل"
+                                       onclick="edit_dep(<?php echo $row['dep_id'];?>);">
+                                <input type='button' class="save_button"
+                                       id="save_but<?php echo $row['dep_id'];?>" value="حفظ"
+                                       onclick="save_dep(<?php echo $row['dep_id'];?>);" style='display: none'>
+                                <input type='button' class="delete_button special"
+                                       id="delete_but<?php echo $row['dep_id'];?>" value="حذف"
+                                       onclick="delete_dep(<?php echo $row['dep_id'];?>);">
+                            </td>
+                        </tr>
+                        <?php
+                                                    }}
+                                                    ?>
+                        <tr id="new_row">
+                            <td><input type="text" id="new_name" title="حروف فقط"></td>
+                            <td><input type="number" id="new_totalbeds" min="1"></td>
+                            <td><input type="button" value="إضافة قسم" onclick="add_dep();"></td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </article>
+
+    <!-- Edit Hospital Info -->
+    <article id="Hospital">
+        <h2 class="major">معلومات المشفى</h2>
+        <form id='hospitalEdit'>
+            <?php
+                            //to show hospital
+                            $hospitalModel = new hospitalModel();
+                            $hospital = $hospitalModel->getHospital($_SESSION['hos_id']);
+
+            $name = $hospital['name'];
+            $phone = $hospital['phone'];
+            $address = $hospital['address'];
+            echo "
+
+            <div class='field'>
+                <h3>اسم المشفى</h3>
+                <input type='text' name='name' id='hosname' value='$name'/>
+            </div>
+            <br>
+
+            <div class='field'>
+                <h3>رقم المشفى</h3>
+                <input type='text' name='phone' id='hosphone' value='$phone'/>
+            </div>
+            <br>
+
+            <div class='field'>
+                <h3>عنوان المشفى</h3>
+                <input type='text' name='address' id='hosaddress' value='$address'/>
+            </div>
+            <br>
+
+
+            <ul class='actions'>
+                <li><input type='submit' name='submit' value='تعديل البيانات' class='special'/></li>
+            </ul>
+
+            ";
+            ?>
+        </form>
+
+    </article>
+
+    <!-- Contact -->
+    <article id="contact">
+        <h2 class="major">تواصل معنا</h2>
+
+        <form id="feedback">
+
+            <div class="field half first">
+                <label>الاسم</label>
+                <input type="text" name="name" required="" />
+            </div>
+            <div class="field half ">
+                <label>البريد الإلكتروني</label>
+                <input dir='ltr' lang='en' type="text" name="email" title="Optional" placeholder="يمكنك أن تتركه فارغاً" />
+            </div>
+            <div class="field">
+                <label>رسالتك</label>
+                <textarea name="message" required="" placeholder="ساعدنا على التحسن, اجعل رسالتك بناءة" rows="4"></textarea>
+            </div>
+
+            <ul class="actions">
+                <li><input type="submit" value="إرسال" class="special" /></li>
+                <li><input type="reset" value="إفراغ الحقول" /></li>
+            </ul><br>
+            <!-- voting markup -->
+            <div style="float: inherit">
+                <label>ما تقييمك لنا</label>
+                <div class="voting_wrapper" id="voting">
+                    <div class="voting_btn">
+                        <div class="up_button">&nbsp;</div><span class="up_votes">0</span>
+                    </div>
+                    <div class="voting_btn">
+                        <div class="down_button">&nbsp;</div><span class="down_votes">0</span>
+                    </div>
+                </div>
+            </div>
+            <!-- voting markup end -->
+        </form>
+
+
+        <label>تابعنا هنا</label>
+        <ul class="icons">
+            <li><a href="https://twitter.com/SupportIcu" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+            <li><a href="https://www.facebook.com/ICUINDEX/" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+            <li><a href="https://plus.google.com/u/2/102309171787413177826" class="icon fa-google"><span class="label">Google+</span></a></li>
+        </ul>
+    </article>
+
+    <!-- Profile -->
+    <article id="profile">
+        <h2 class="major">الصفحة الشخصية</h2>
+        <?php
+                                $name = $_SESSION['name'];
+                                $email = $_SESSION['email'];
+                                $phone = $_SESSION['phone'];
+                                $address = $_SESSION['address'];
+                                $sec_q = $_SESSION['sec_q'];
+                                $sec_q_a = $_SESSION['sec_q_a'];
+
+                                echo "  <div class='field'>
+        <h3>الاسم</h3>
+        <input type='text' name='name' id='prname' value='$name'/>
+<br>
+
+<div class='field'>
+    <h3>البريد الإلكتروني</h3>
+    <div class='popup'><span class='popuptext' id='premailpopup'>برجاء إدخال عنوان بريد إلكتروني صالح</span></div>
+    <input type='text' name='email' id='premail' value='$email'/>
+</div>
+<br>
+
+<div class='field'>
+    <h3>رقم الهاتف</h3>
+    <input type='text' name='phone' id='prphone' value='$phone'/>
+</div>
+<br>
+
+<div class='field'>
+    <h3>العنوان</h3>
+    <input type='text' name='address' id='praddress' value='$address'/>
+</div>
+<br>
+
+<div class='field'>
+    <h3>سؤال الأمان</h3>
+    <div class='select-wrapper'>
+        <select name='sec_q' id='prsec_q' required=''>
+            <option value='$sec_q'>اتركه بغير تعديل إذا قمت باختياره مرة من قبل</option>
+            <option value='1'>ما هو اسم صديق طفولتك المفضل؟</option>
+            <option value='2'>ما هو الاسم الأوسط لأكبر طفل لديك؟</option>
+            <option value='3'>ما هو فريقك المفضل؟</option>
+            <option value='4'>ما هو طعامك المفضل وأنت طفل؟</option>
+            <option value='5'>ما هو نوع وإصدار أول سيارة لك؟</option>
+            <option value='6'>ما اسم المشفى الذي وُلِدَت فيه؟</option>
+            <option value='7'>ما اسم مدرستك الابتدائية؟</option>
+            <option value='8'>في أي مدينة كانت أول وظيفة لك؟</option>
+            <option value='9'>ما اسم الشركة التي عملت بها لأول مرة؟</option>
+        </select>
+    </div>
+</div>
+<br>
+
+<div class='field'>
+    <h3>اجابتك</h3>
+    <input type='text' name='sec_q_a' id='prsec_q_a' value='$sec_q_a'/>
+</div>
+<br>
+
+<div class='field'>
+    <h3>كلمة السر القديمة</h3>
+    <input type='password' name='pass' id='propass' placeholder='ادخلها إذا كنت ستغير كلمة السر'/>
+</div>
+<br>
+
+<div class='field half first'>
+    <h3>كلمة السر الجديدة</h3>
+    <input type='password' name='pass' id='prnpass'/>
+</div>
+<br>
+
+<div class='field half'>
+    <h3>تأكيد كلمة السر</h3>
+    <input type='password' name='pass' id='prcpass'/>
+</div>
+<br>
+<ul class='actions'>
+    <li><input type='submit' value='تعديل البيانات' id='profileEdit' class='special'/></li>
+</ul>
+"; ?>
+
+</article>
+
+</div>
+
+<!-- Footer -->
+<footer id="footer">
+    <p class="copyright">&copy; تم تطوير الموقع من قبل A-Team, جامعة الزقازيق - كلية الحاسبات والمعلومات.</p>
+    <!-- voting markup -->
+    <div style="float: inherit">
+        <div class="voting_wrapper" id="voting">
+            <div class="voting_btn">
+                <div class="up_button">&nbsp;</div><span class="up_votes">0</span>
+            </div>
+            <div class="voting_btn">
+                <div class="down_button">&nbsp;</div><span class="down_votes">0</span>
+            </div>
+        </div>
+    </div>
+    <!-- voting markup end -->
+</footer>
+
+</div>
+
+<!-- BG -->
+<div id="bg"></div>
+
+<!-- Scripts -->
+<script src="view/assets/js/angular.min.js"></script>
+<script src="view/assets/js/jquery.min.js"></script>
+<script src="view/assets/js/skel.min.js"></script>
+<script src="view/assets/js/util.js"></script>
+<script src="view/assets/js/main.js"></script>
+<script src="view/assets/sweetalert2/sweetalert2.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js"></script>
+<script src="view/assets/chosen_v1.7.0/chosen.jquery.min.js"></script>
+<script src="view/assets/js/adminAjax&validation-ar.js"></script>
+<script src="view/assets/datatable/jquery.dataTables.js"></script>
+</body>
+</html>
